@@ -1,6 +1,0 @@
-C:\Users\iltoningui\next\vpos-csharp\bin\Debug\vpos-csharp.dll
-C:\Users\iltoningui\next\vpos-csharp\bin\Debug\vpos-csharp.pdb
-C:\Users\iltoningui\next\vpos-csharp\obj\Debug\VposApi.csprojAssemblyReference.cache
-C:\Users\iltoningui\next\vpos-csharp\obj\Debug\VposApi.csproj.CoreCompileInputs.cache
-C:\Users\iltoningui\next\vpos-csharp\obj\Debug\vpos-csharp.dll
-C:\Users\iltoningui\next\vpos-csharp\obj\Debug\vpos-csharp.pdb
