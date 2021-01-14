@@ -1,5 +1,9 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.CodeDom;
+using System.Net.Http;
+using vpos.Models;
+using VposApi.Models;
 
 namespace VposApi.Tests
 {
@@ -17,61 +21,78 @@ namespace VposApi.Tests
         [TestMethod]
         public void TestShouldCreateANewPaymentRequestTransaction()
         {
-            Assert.ThrowsException<NotImplementedException>(() => merchant.NewPayment("992563019", "123.45"));
+            LocationResponse response = (LocationResponse)merchant.NewPayment("992563019", "123.45");
+            Assert.IsNotNull(response.location);
+            Assert.AreEqual(response.status, 202);
         }
 
         [TestMethod]
         public void TestShouldNotCreateANewPaymentRequestTransactionIfCustomerFormatIsInvalid()
         {
-            Assert.ThrowsException<NotImplementedException>(() => merchant.NewPayment("99256301", "123.45"));
+            ApiErrorResponse response = (ApiErrorResponse)merchant.NewPayment("99256301", "123.45");
+            Assert.IsNotNull(response);
+            Assert.AreEqual(response.status, 400);
+            Assert.IsTrue(response.details.ContainsKey("mobile"));
         }
     
         [TestMethod]
         public void TestShouldNotCreateANewPaymentRequestTransactionIfAmountFormatIsInvalid()
         {
-            Assert.ThrowsException<NotImplementedException>(() => merchant.NewPayment("992563019", "123.45.01"));
+            ApiErrorResponse response = (ApiErrorResponse)merchant.NewPayment("992563019", "123.45.01");
+            
+            Assert.IsNotNull(response);
+            Assert.AreEqual(response.status, 400);
+            Assert.IsTrue(response.details.ContainsKey("amount"));
         }
     
         [TestMethod]
         public void TestShouldCreateANewRefundRequestTransaction()
         {
-            Assert.ThrowsException<NotImplementedException>(() => merchant.NewRefund("1jYQryG3Qo4nzaOKgJxzWDs25Hv"));
+            LocationResponse response = (LocationResponse)merchant.NewRefund("1jYQryG3Qo4nzaOKgJxzWDs25Hv");
+            Assert.IsNotNull(response.location);
+            Assert.AreEqual(response.status, 202);
         }
     
         [TestMethod]
         public void TestShouldNotCreateANewRefundRequestTransactionIfParentTransactionIdIsNotPresent()
         {
-            Assert.ThrowsException<NotImplementedException>(() => merchant.NewRefund(null));
+            ApiErrorResponse response = (ApiErrorResponse)merchant.NewRefund(null);
+            Assert.IsNotNull(response);
+            Assert.AreEqual(response.status, 400);
+            Assert.IsTrue(response.details.ContainsKey("parent_transaction_id"));
         }
     
         [TestMethod]
         public void TestShouldNotCreateANewRefundRequestTransactionIfSupervisorCardIsInvalid()
         {
-            Assert.ThrowsException<NotImplementedException>(() => merchant.NewRefund("1jYQryG3Qo4nzaOKgJxzWDs25Hv", supervisorCard:  "123123123123123"));
+            ApiErrorResponse response = (ApiErrorResponse)merchant.NewRefund("1jYQryG3Qo4nzaOKgJxzWDs25Hv", supervisorCard: "");
+            Assert.IsNotNull(response);
+            Assert.AreEqual(response.status, 400);
+            Assert.IsTrue(response.details.ContainsKey("supervisor_card"));
         }
     
         [TestMethod]
         public void TestShouldGetAllTransactions()
         {
-            Assert.ThrowsException<NotImplementedException>(() => merchant.GetTransactions());
+            TransactionsResponse response = (TransactionsResponse)merchant.GetTransactions();
+            Assert.IsNotNull(response.data);
+            Assert.AreEqual(response.status, 200);
         }
     
         [TestMethod]
         public void TestShouldGetASingleTransaction()
         {
-            Assert.ThrowsException<NotImplementedException>(() => merchant.GetTransaction("1jYQryG3Qo4nzaOKgJxzWDs25Ht"));
+            TransactionResponse response = (TransactionResponse)merchant.GetTransaction("1jYQryG3Qo4nzaOKgJxzWDs25Ht");
+            Assert.IsNotNull(response.data);
+            Assert.AreEqual(response.status, 200);
         }
          
         [TestMethod]
         public void TestShouldNotGetANonExistentSingleTransaction()
         {
-            Assert.ThrowsException<NotImplementedException>(() => merchant.GetTransaction("1jYQryG3Qo4nzaOKgJxzWDs25H"));
-        }
-    
-        [TestMethod]
-        public void TestShouldGetARunningSingleRequestStatus()
-        {
-            Assert.ThrowsException<NotImplementedException>(() => merchant.NewPayment("925888553", "123.45"));
+            ApiErrorResponse response = (ApiErrorResponse)merchant.GetTransaction("1jYQryG3Q");
+            Assert.IsNotNull(response);
+            Assert.AreEqual(response.status, 404);
         }
     }
 }
