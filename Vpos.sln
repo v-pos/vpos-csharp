@@ -10,7 +10,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vpos.TestCore", "VposTestsC
 		{8BF2FDE7-2AC0-4580-A479-1B47D306C5A0} = {8BF2FDE7-2AC0-4580-A479-1B47D306C5A0}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vpos.TestNetFramework", "Vpostests\Vpos.TestNetFramework.csproj", "{F2D83CD7-3065-46C8-BA74-41E9C7A95519}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vpos.TestNetFramework", "VposTestsNetFramework\Vpos.TestNetFramework.csproj", "{F2D83CD7-3065-46C8-BA74-41E9C7A95519}"
 	ProjectSection(ProjectDependencies) = postProject
 		{8BF2FDE7-2AC0-4580-A479-1B47D306C5A0} = {8BF2FDE7-2AC0-4580-A479-1B47D306C5A0}
 	EndProjectSection
