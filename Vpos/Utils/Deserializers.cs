@@ -28,7 +28,7 @@ namespace vpos.Utils
                 }
                 return details;
             }
-            catch (JsonReaderException ex)
+            catch (JsonReaderException)
             {
                 return null;
             }

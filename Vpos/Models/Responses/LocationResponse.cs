@@ -8,7 +8,7 @@ using VposApi.Models;
 
 namespace vpos.Models
 {
-    public class LocationResponse : AbstratcResponse
+    public class LocationResponse : AbstractResponse
     {
         public string location;
 

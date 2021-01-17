@@ -7,7 +7,7 @@ using VposApi.Models;
 
 namespace vpos.Models
 {
-    public abstract class AbstratcResponse
+    public abstract class AbstractResponse
     {
         public int status;
         public string message;

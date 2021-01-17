@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace vpos.Models
 {
-    public class ApiErrorResponse : AbstratcResponse
+    public class ApiErrorResponse : AbstractResponse
     {
         public Dictionary<string, List<string>> details;
         
@@ -41,7 +41,7 @@ namespace vpos.Models
                 }
                 return details;
             }
-            catch(JsonReaderException ex)
+            catch(JsonReaderException)
             {
                 return new Dictionary<string, List<string>>();
             }

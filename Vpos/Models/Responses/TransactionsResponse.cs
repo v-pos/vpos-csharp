@@ -10,7 +10,7 @@ using vpos.Models;
 
 namespace VposApi.Models
 {
-    public class TransactionsResponse : AbstratcResponse
+    public class TransactionsResponse : AbstractResponse
     {
         public List<Transaction> data;
 

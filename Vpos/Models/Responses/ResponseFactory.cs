@@ -10,7 +10,7 @@ namespace vpos.Models
 {
     public class ResponseFactory
     {
-        public static AbstratcResponse Create(string type,
+        public static AbstractResponse Create(string type,
                                               int status,
                                               string message,
                                               string location = null,

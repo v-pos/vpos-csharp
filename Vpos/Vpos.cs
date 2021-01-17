@@ -20,13 +20,13 @@ namespace VposApi
     /// <summary>
     public class Vpos
     {
-        private string host;
-        private string gpoPosID;
-        private string gpoSupervisorCard;
-        private string merchantVposToken;
-        private string paymentCallbackUrl;
-        private string refundCallbackUrl;
-        private string vposEnvironment;
+        private readonly string host;
+        private readonly string gpoPosID;
+        private readonly string gpoSupervisorCard;
+        private readonly string merchantVposToken;
+        private readonly string paymentCallbackUrl;
+        private readonly string refundCallbackUrl;
+        private readonly string vposEnvironment;
 
         /// <summary>
         /// Initializes a Vpos Object
@@ -44,7 +44,7 @@ namespace VposApi
                 this.host = "https://sandbox.vpos.ao/api/v1";
         }
 
-        public AbstratcResponse NewPayment(string customer, string amount, string postID = null, string callbackUrl = null)
+        public AbstractResponse NewPayment(string customer, string amount, string postID = null, string callbackUrl = null)
         {
             IFlurlResponse result = PostHttpRequest("transactions")
                 .PostJsonAsync(new {
@@ -72,7 +72,7 @@ namespace VposApi
             }
         }
 
-        public AbstratcResponse NewRefund(string parentTransactionId, string supervisorCard = null, string callbackUrl = null)
+        public AbstractResponse NewRefund(string parentTransactionId, string supervisorCard = null, string callbackUrl = null)
         {
             IFlurlResponse result = PostHttpRequest("transactions")
                 .PostJsonAsync(new
@@ -100,7 +100,7 @@ namespace VposApi
             }
         }
 
-        public AbstratcResponse GetTransaction(string transactionId)
+        public AbstractResponse GetTransaction(string transactionId)
         {
             IFlurlResponse result = GetHttpRequest($"transactions/{transactionId}")
                 .GetAsync().Result;
@@ -119,7 +119,7 @@ namespace VposApi
             }
         }
 
-        public AbstratcResponse GetTransactions()
+        public AbstractResponse GetTransactions()
         {
             IFlurlResponse result = GetHttpRequest("transactions")
                 .GetAsync().Result;
@@ -138,10 +138,10 @@ namespace VposApi
             }
         }
 
-        public AbstratcResponse GetRequest(string requestId)
+        public AbstractResponse GetRequest(string requestId)
         {
             IFlurlResponse result = GetHttpRequest($"requests/{requestId}")
-                .GetJsonAsync().Result;
+                .GetAsync().Result;
 
             int code = result.StatusCode;
             string message = StatusMessage.GetMessage(code);

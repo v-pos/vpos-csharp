@@ -6,7 +6,7 @@ using vpos.Models;
 
 namespace VposApi.Models
 {
-    public partial class RequestResponse : AbstratcResponse
+    public partial class RequestResponse : AbstractResponse
     {
         public Request data;
     }

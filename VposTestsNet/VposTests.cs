@@ -1,10 +1,10 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.CodeDom;
 using System.Net.Http;
-using vpos.Models;
+using Vpos.Models;
 
-namespace VposApi.TestNet
+namespace Vpos.TestNet
 {
     [TestClass]
     public class VposTests
