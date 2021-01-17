@@ -23,7 +23,7 @@ jobs:
       run: dotnet build --no-restore
     - name: Test
       run: dotnet test --no-build --verbosity normal
-       env:
+      env:
         MERCHANT_VPOS_TOKEN: ${{ secrets.MERCHANT_VPOS_TOKEN }}
         GPO_POS_ID: ${{ secrets.GPO_POS_ID }}
         GPO_SUPERVISOR_CARD: ${{ secrets.GPO_SUPERVISOR_CARD }}
