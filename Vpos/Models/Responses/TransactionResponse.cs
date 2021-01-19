@@ -7,8 +7,25 @@ using vpos.Models;
 
 namespace VposApi.Models
 {
-    public class TransactionResponse : AbstractResponse
+    /// <summary>
+    /// The class <c>TransactionResponse</c> represents a transaction details response
+    /// </summary>
+    public class TransactionResponse : Response
     {
-        public Transaction data;
+        /// <summary>
+        /// The Transaction details
+        /// </summary>
+        public Transaction Data { get; }
+
+        /// <summary>
+        /// Creates an instance of TransactionResponse
+        /// </summary>
+        /// <param name="status">the http status</param>
+        /// <param name="message">the status message</param>
+        /// <param name="data">the transaction data</param>
+        public TransactionResponse(int status, string message, Transaction data) : base(status, message)
+        {
+            this.Data = data;
+        }
     }
 }

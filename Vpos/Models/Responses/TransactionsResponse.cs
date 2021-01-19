@@ -10,18 +10,25 @@ using vpos.Models;
 
 namespace VposApi.Models
 {
-    public class TransactionsResponse : AbstractResponse
+    /// <summary>
+    /// Represents a response from a transactions list request
+    /// </summary>
+    public class TransactionsResponse : Response
     {
+        /// <summary>
+        /// Represents a list of transactions
+        /// </summary>
         public List<Transaction> data;
 
-        public static TransactionsResponse FromResponse(IFlurlResponse response)
+        /// <summary>
+        /// Creates an instance of <c>TransactionsResponse</c>
+        /// </summary>
+        /// <param name="status"> The http status</param>
+        /// <param name="message">The status message</param>
+        /// <param name="data">A list of transactions</param>
+        public TransactionsResponse(int status, string message, List<Transaction> data) : base(status, message)
         {
-            return new TransactionsResponse
-            {
-                status = response.StatusCode,
-                message = StatusMessage.GetMessage(response.StatusCode),
-                data = JsonConvert.DeserializeObject<List<Transaction>>(response.GetStringAsync().Result)
-            };
+            this.data = data;
         }
     }
 }
