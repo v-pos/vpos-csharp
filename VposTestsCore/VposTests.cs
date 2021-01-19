@@ -15,9 +15,9 @@ namespace VposApi.TestCore
         {
             Vpos merchant = CreateDefaultVpos();
 
-            AbstractResponse response = merchant.NewPayment("992563019", "123.45");
+            LocationResponse response = merchant.NewPayment("992563019", "123.45");
 
-            Assert.Equal(202, response.status);
+            Assert.Equal(202, response.Status);
         }
 
         [Fact]
@@ -26,9 +26,11 @@ namespace VposApi.TestCore
             Vpos merchant = CreateDefaultVpos();
             const string INVALID_PHONE_NUMBER = "99256301";
 
-            AbstractResponse response = merchant.NewPayment(INVALID_PHONE_NUMBER, "123.45");
+            Action action = () => merchant.NewPayment(INVALID_PHONE_NUMBER, "123.45");
 
-            Assert.Equal(400, response.status);
+            RequestFailedException err = Assert.Throws<RequestFailedException>(action);
+            
+            Assert.Equal(400, err.Status);
         }
 
         [Fact]
@@ -37,9 +39,10 @@ namespace VposApi.TestCore
             Vpos merchant = CreateDefaultVpos();
             const string INVALID_FORMAT_AMOUNT = "123.45.01";
 
-            AbstractResponse response = merchant.NewPayment("992563019", INVALID_FORMAT_AMOUNT);
+            Action action = () => merchant.NewPayment("992563019", INVALID_FORMAT_AMOUNT);
 
-            Assert.Equal(400, response.status);
+            RequestFailedException err = Assert.Throws<RequestFailedException>(action);
+            Assert.Equal(400, err.Status);
         }
 
         [Fact]
@@ -47,9 +50,9 @@ namespace VposApi.TestCore
         {
             Vpos merchant = CreateDefaultVpos();
 
-            AbstractResponse response = merchant.NewRefund("1jYQryG3Qo4nzaOKgJxzWDs25Hv");
+            LocationResponse response = merchant.NewRefund("1jYQryG3Qo4nzaOKgJxzWDs25Hv");
 
-            Assert.Equal(202, response.status);
+            Assert.Equal(202, response.Status);
         }
 
         [Fact]
@@ -57,9 +60,10 @@ namespace VposApi.TestCore
         {
             Vpos merchant = CreateDefaultVpos();
 
-            AbstractResponse response = merchant.NewRefund(null);
+            Action action = () => merchant.NewRefund(null);
 
-            Assert.Equal(400, response.status);
+            RequestFailedException err = Assert.Throws<RequestFailedException>(action);
+            Assert.Equal(400, err.Status);
         }
 
         [Fact]
@@ -68,9 +72,10 @@ namespace VposApi.TestCore
             Vpos merchant = CreateDefaultVpos();
             const string INVALID_SUPERVISOR_CARD = "";
 
-            AbstractResponse response = merchant.NewRefund("1jYQryG3Qo4nzaOKgJxzWDs25Hv", supervisorCard: INVALID_SUPERVISOR_CARD);
+            Action action = () => merchant.NewRefund("1jYQryG3Qo4nzaOKgJxzWDs25Hv", supervisorCard: INVALID_SUPERVISOR_CARD);
 
-            Assert.Equal(400, response.status);
+            RequestFailedException err = Assert.Throws<RequestFailedException>(action);
+            Assert.Equal(400, err.Status);
         }
 
         [Fact]
@@ -78,9 +83,9 @@ namespace VposApi.TestCore
         {
             Vpos merchant = CreateDefaultVpos();
 
-            AbstractResponse response = merchant.GetTransactions();
+            TransactionsResponse response = merchant.GetTransactions();
 
-            Assert.Equal(200, response.status);
+            Assert.Equal(200, response.Status);
         }
 
         [Fact]
@@ -88,19 +93,21 @@ namespace VposApi.TestCore
         {
             Vpos merchant = CreateDefaultVpos();
 
-            AbstractResponse response = merchant.GetTransaction("1jYQryG3Qo4nzaOKgJxzWDs25Ht");
+            TransactionResponse response = merchant.GetTransaction("1jYQryG3Qo4nzaOKgJxzWDs25Ht");
 
-            Assert.Equal(200, response.status);
+            Assert.Equal(200, response.Status);
         }
 
         [Fact]
         public void GetTransaction_NonExistentTransactionID_ReturnsStatus404()
         {
             Vpos merchant = CreateDefaultVpos();
+            const string TRANSACTION_ID = "1jYQryG3Q";
 
-            AbstractResponse response = merchant.GetTransaction("1jYQryG3Q");
+            Action action = () => merchant.GetTransaction(TRANSACTION_ID);
 
-            Assert.Equal(404, response.status);
+            RequestFailedException err = Assert.Throws<RequestFailedException>(action);
+            Assert.Equal(404, err.Status);
         }
 
         private Vpos CreateDefaultVpos()
