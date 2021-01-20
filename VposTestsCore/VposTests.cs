@@ -26,7 +26,7 @@ namespace VposApi.TestCore
             Vpos merchant = CreateDefaultVpos();
             const string INVALID_PHONE_NUMBER = "99256301";
 
-            Action action = () => merchant.NewPayment(INVALID_PHONE_NUMBER, "123.45");
+            void action() => merchant.NewPayment(INVALID_PHONE_NUMBER, "123.45");
 
             RequestFailedException err = Assert.Throws<RequestFailedException>(action);
             
@@ -39,7 +39,7 @@ namespace VposApi.TestCore
             Vpos merchant = CreateDefaultVpos();
             const string INVALID_FORMAT_AMOUNT = "123.45.01";
 
-            Action action = () => merchant.NewPayment("992563019", INVALID_FORMAT_AMOUNT);
+            void action() => merchant.NewPayment("992563019", INVALID_FORMAT_AMOUNT);
 
             RequestFailedException err = Assert.Throws<RequestFailedException>(action);
             Assert.Equal(400, err.Status);
@@ -60,7 +60,7 @@ namespace VposApi.TestCore
         {
             Vpos merchant = CreateDefaultVpos();
 
-            Action action = () => merchant.NewRefund(null);
+            void action() => merchant.NewRefund(null);
 
             RequestFailedException err = Assert.Throws<RequestFailedException>(action);
             Assert.Equal(400, err.Status);
@@ -72,7 +72,7 @@ namespace VposApi.TestCore
             Vpos merchant = CreateDefaultVpos();
             const string INVALID_SUPERVISOR_CARD = "";
 
-            Action action = () => merchant.NewRefund("1jYQryG3Qo4nzaOKgJxzWDs25Hv", supervisorCard: INVALID_SUPERVISOR_CARD);
+            void action() => merchant.NewRefund("1jYQryG3Qo4nzaOKgJxzWDs25Hv", supervisorCard: INVALID_SUPERVISOR_CARD);
 
             RequestFailedException err = Assert.Throws<RequestFailedException>(action);
             Assert.Equal(400, err.Status);
@@ -104,7 +104,7 @@ namespace VposApi.TestCore
             Vpos merchant = CreateDefaultVpos();
             const string TRANSACTION_ID = "1jYQryG3Q";
 
-            Action action = () => merchant.GetTransaction(TRANSACTION_ID);
+            void action() => merchant.GetTransaction(TRANSACTION_ID);
 
             RequestFailedException err = Assert.Throws<RequestFailedException>(action);
             Assert.Equal(404, err.Status);
