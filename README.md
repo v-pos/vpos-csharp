@@ -1,4 +1,4 @@
-# vpos-csharp
+# vPOS C#
 ![Test](https://github.com/nextbss/vpos-csharp/workflows/Test/badge.svg?branch=main)
 [![](https://img.shields.io/badge/nextbss-opensource-blue.svg)](https://www.nextbss.co.ao)
 
