@@ -94,7 +94,7 @@ Poll the status of a transaction given a valid `requestId`.
 Note: The `requestId` in this context is essentially the `transactionId` of an existing request. 
 
 ```c#
-RequestResponse response = merchant.GetRequest("1jHXEbRTIbbwaoJ6w86");
+BaseResponse response = merchant.GetRequest("1jHXEbRTIbbwaoJ6w86");
 if (response.status == 200)
 {
     RequestResponse requestResponse = (RequestResponse)response;
