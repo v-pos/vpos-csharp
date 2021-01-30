@@ -11,9 +11,21 @@ namespace VposApi.Models
         /// the estimated time the request will be in the poll
         /// </summary>
         public float Eta { get; }
+
         /// <summary>
         /// The datetime the request was inserted in the poll
         /// </summary>
-        public DateTime InsertedAt { get; }
+        public string InsertedAt { get; }
+
+        /// <summary>
+        /// Constructs a Request object
+        /// </summary>
+        /// <param name="eta">estimeted time for the execution</param>
+        /// <param name="insertedAt">datetime the request was inserted in the queue</param>
+        public Request(float eta, string insertedAt)
+        {
+            Eta = eta;
+            InsertedAt = insertedAt;
+        }
     }
 }
