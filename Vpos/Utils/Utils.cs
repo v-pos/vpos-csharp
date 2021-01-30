@@ -55,13 +55,24 @@ namespace Vpos.Utils
         }
 
         /// <summary>
-        /// extract a list of transactions from the http response
+        /// extracts a list of transactions from the http response
         /// </summary>
         /// <param name="response">A http response object</param>
         /// <returns>A list of transactions</returns>
         public static List<Transaction> GetTransactions(this IFlurlResponse response)
         {
             return JsonConvert.DeserializeObject<List<Transaction>>(response.GetStringAsync().Result);
+        }
+
+        /// <summary>
+        /// gets request id from a location string
+        /// </summary>
+        /// <param name="location">An http header location</param>
+        /// <returns>requestid or transaction id</returns>
+        public static string GetRequestId(string location)
+        {
+            string requestId = location.Replace("/api/v1/requests/", "").Replace("/api/v1/transactions/", "");
+            return requestId;
         }
     }
 }

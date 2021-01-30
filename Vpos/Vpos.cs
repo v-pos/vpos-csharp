@@ -1,12 +1,5 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using Flurl;
 using Flurl.Http;
 using vpos.Models;
@@ -80,23 +73,15 @@ namespace VposApi
         /// </returns>
         /// <example>
         /// <code>
-        /// try
-        /// {
-        ///     var merchant = new Vpos();
-        ///     LocationResponse location = merchant.NewPayment("900111222", "123.45");
-        /// }
-        /// catch(RequestFailedException ex)
-        /// {
-        ///     Console.log(ex.status);
-        /// }
+        /// var merchant = new Vpos();
+        /// var location = merchant.NewPayment("900111222", "123.45");
         /// </code>
         /// </example>
-        /// <exception cref="RequestFailedException">Thrown when the status code is greather than or equal to 400</exception>
         /// <param name="customer"><c>customer</c> The customer mobile number</param>
         /// <param name="amount"><c>amount</c> The amount of money being charged</param>
         /// <param name="postID"><c>postID</c> the point of sale identification it defaults to the 'GPO_POS_ID' environment var</param>
         /// <param name="callbackUrl"><c>callbackUrl</c> the callback url it defaults to 'PAYMENT_CALLBACK_URL' environment var</param>
-        public LocationResponse NewPayment(string customer, string amount, string postID = null, string callbackUrl = null)
+        public Response NewPayment(string customer, string amount, string postID = null, string callbackUrl = null)
         {
             IFlurlResponse result = HttpRequest("transactions")
                 .PostJsonAsync(new {
@@ -111,37 +96,32 @@ namespace VposApi
             string message = StatusMessage.GetMessage(status);
             if (status == 202)
             {
-                var locationResponse = new LocationResponse(status, message, Utils.GetLocation(result));
+                var locationResponse = new Response(status, message, Utils.GetLocation(result));
                 return locationResponse;
             }
             else
-                throw new RequestFailedException(status, message, Utils.GetDetails(result));
+            {
+                var errorResponse = new Response(status, message, details: Utils.GetDetails(result));
+                return errorResponse;
+            }
         }
 
         /// <summary> 
         /// Creates a new refund transaction, given the parent transaction id
         /// </summary>
         /// <returns>
-        /// Returns <c>LocationResponse</c> object.
+        /// Returns <c>Response</c> object.
         /// </returns>
         /// <example>
         /// <code>
-        /// try
-        /// {
-        ///     var merchant = new Vpos();
-        ///     LocationResponse location = merchant.NewRefund("900111222", "123.45");
-        /// }
-        /// catch(RequestFailedException ex)
-        /// {
-        ///     Console.log(ex.status);
-        /// }
+        /// var merchant = new Vpos();
+        /// var location = merchant.NewRefund("900111222", "123.45");
         /// </code>
         /// </example>
-        /// <exception cref="RequestFailedException">Thrown when the status code is greather than or equal to 400</exception>
         /// <param name="parentTransactionId"><c>parentTransactionId</c> This is a string value of the transaction id you're requesting to be refunded.</param>
         /// <param name="supervisorCard"><c>supervisorCard</c> A 16 characters string digits representing the supervisor card provided by EMIS it defaults to GPO_SUPERVISOR_CARD environment var</param>
         /// <param name="callbackUrl"><c>callbackUrl</c> the callback url it defaults to 'PAYMENT_CALLBACK_URL' environment var</param>
-        public LocationResponse NewRefund(string parentTransactionId, string supervisorCard = null, string callbackUrl = null)
+        public Response NewRefund(string parentTransactionId, string supervisorCard = null, string callbackUrl = null)
         {
             IFlurlResponse result = HttpRequest("transactions")
                 .PostJsonAsync(new
@@ -156,11 +136,14 @@ namespace VposApi
             string message = StatusMessage.GetMessage(status);
             if (status == 202)
             {
-                var locationResponse = new LocationResponse(status, message, Utils.GetLocation(result));
+                var locationResponse = new Response(status, message, Utils.GetLocation(result));
                 return locationResponse;
             }
             else
-                throw new RequestFailedException(status, message, Utils.GetDetails(result));
+            {
+                var errorResponse = new Response(status, message, details: Utils.GetDetails(result));
+                return errorResponse;
+            }
         }
 
         /// <summary>
@@ -168,24 +151,16 @@ namespace VposApi
         /// Given the transaction id or and error object if the transaction was not found.
         /// </summary>
         /// <returns>
-        /// Returns <c>TransactionResponse</c> object.
+        /// Returns <c>Response</c> object.
         /// </returns>
         /// <example>
         /// <code>
-        /// try
-        /// {
-        ///     var merchant = new Vpos();
-        ///     TransactionResponse transaction = merchant.GetTransaction("XCSd3csdbadshg67348tgyfr");
-        /// }
-        /// catch(RequestFailedException ex)
-        /// {
-        ///     Console.log(ex.status);
-        /// }
+        /// var merchant = new Vpos();
+        /// var transaction = merchant.GetTransaction("XCSd3csdbadshg67348tgyfr");
         /// </code>
         /// </example>
-        /// <exception cref="RequestFailedException">Thrown when the status code is greather than or equal to 400</exception>
         /// <param name="transactionId"><c>transactionId</c> The id of the transaction to retrieve</param>
-        public TransactionResponse GetTransaction(string transactionId)
+        public Response<Transaction> GetTransaction(string transactionId)
         {
             IFlurlResponse result = HttpRequest($"transactions/{transactionId}")
                 .GetAsync().Result;
@@ -195,11 +170,13 @@ namespace VposApi
             if (status == 200)
             {
                 var transaction = result.GetJsonAsync<Transaction>().Result;
-                var transactionResponse = new TransactionResponse(status, message, transaction);
+                Response<Transaction> transactionResponse = new Response<Transaction>(status, message, transaction);
                 return transactionResponse;
             }
-            else
-                throw new RequestFailedException(status, message, Utils.GetDetails(result));
+            {
+                var errorResponse = new Response<Transaction>(status, message, details: Utils.GetDetails(result));
+                return errorResponse;
+            }
         }
 
         /// <summary>
@@ -210,19 +187,11 @@ namespace VposApi
         /// </returns>
         /// <example>
         /// <code>
-        /// try
-        /// {
-        ///     var merchant = new Vpos();
-        ///     TransactionsResponse transactionsResponse = merchant.GetTransactions();
-        /// }
-        /// catch(RequestFailedException ex)
-        /// {
-        ///     Console.log(ex.status);
-        /// }
+        /// var merchant = new Vpos();
+        /// var transactionsResponse = merchant.GetTransactions();
         /// </code>
         /// </example>
-        /// <exception cref="RequestFailedException">Thrown when the status code is greather than or equal to 400</exception>
-        public TransactionsResponse GetTransactions()
+        public Response<List<Transaction>> GetTransactions()
         {
             IFlurlResponse result = HttpRequest("transactions")
                 .GetAsync().Result;
@@ -232,11 +201,13 @@ namespace VposApi
             if (status == 200)
             {
                 var transactions = Utils.GetTransactions(result);
-                var TransactionsResponse = new TransactionsResponse(status, message, transactions);
+                var TransactionsResponse = new Response<List<Transaction>>(status, message, transactions);
                 return TransactionsResponse;
             }
-            else
-                throw new RequestFailedException(status, message, Utils.GetDetails(result));
+            {
+                var errorResponse = new Response<List<Transaction>>(status, message, details: Utils.GetDetails(result));
+                return errorResponse;
+            }
         }
 
         /// <summary>
@@ -249,27 +220,23 @@ namespace VposApi
         /// <example>
         /// <code>
         /// var merchant = new Vpos();
-        /// try
+        /// Response response = merchant.GetRequest("xSDRWFTs48unv9348ut9e");
+        /// if (response.status == 200)
         /// {
-        ///     Response response = merchant.GetRequest("xSDRWFTs48unv9348ut9e");
-        ///     if (response.status == 200)
-        ///     {
-        ///         RequestResponse requestResponse = (RequestResponse)response;
-        ///     }
-        ///     else if(response.status == 303)
-        ///     {
-        ///         LocationResponse locationResponse = (LocationResponse)response;
-        ///     }
+        ///     // Use response.data
         /// }
-        /// catch(RequestFailedException ex)
+        /// else if(response.status == 303)
         /// {
-        ///     Console.log(ex.status);
+        ///     // Use response.location
+        /// }
+        /// else
+        /// {
+        ///     // User response.details
         /// }
         /// </code>
         /// </example>
-        /// <exception cref="RequestFailedException">Thrown when the status code is greather than or equal to 400</exception>
         /// <param name="requestId"><c>requestId</c> The id of the request we are consulting</param>
-        public Response GetRequest(string requestId)
+        public Response<Request> GetRequest(string requestId)
         {
             IFlurlResponse result = HttpRequest($"requests/{requestId}")
                 .GetAsync().Result;
@@ -279,16 +246,18 @@ namespace VposApi
             if (status == 200)
             {
                 var request = result.GetJsonAsync<Request>().Result;
-                var requestResponse = new RequestResponse(status, message, request);
+                var requestResponse = new Response<Request>(status, message, request);
                 return requestResponse;
             }
             else if(status == 303)
             {
-                var locationResponse = new LocationResponse(status, message, Utils.GetLocation(result));
+                var locationResponse = new Response<Request>(status, message, location: Utils.GetLocation(result));
                 return locationResponse;
             }
-            else
-                throw new RequestFailedException(status, message, Utils.GetDetails(result));
+            {
+                var errorResponse = new Response<Request>(status, message, details: Utils.GetDetails(result));
+                return errorResponse;
+            }
         }
 
         /// <summary>
