@@ -1,13 +1,13 @@
 # vPOS C#
 [![Test](https://github.com/v-pos/vpos-csharp/actions/workflows/test.yml/badge.svg)](https://github.com/v-pos/vpos-csharp/actions/workflows/test.yml)
-[![](https://img.shields.io/badge/nextbss-opensource-blue.svg)](https://www.nextbss.co.ao)
+[![](https://img.shields.io/badge/vPOS-OpenSource-blue.svg)](https://www.vpos.ao)
 
 This C# Package helps you easily interact with the vPos API
 Allowing merchants apps/services to request a payment from a client through his/her mobile phone number.
 
 The service currently works for solutions listed below:
 
-EMIS GPO (Multicaixa Express)
+ - EMIS GPO (Multicaixa Express)
 
 Want to know more about how we are empowering merchants in Angola? See our [website](https://vpos.ao)
 
