@@ -11,7 +11,7 @@ namespace VposApi.TestCore
 {
     public sealed class VposTests
     {
-        [Fact(DisplayName = "NewPayment CustomerAndAmount 202")]
+        [Fact(DisplayName = "It should create a new payment request")]
         [Trait("Payment", "Positive")]
         public void NewPayment_CustomerAndAmount_ReturnsStatus202()
         {
@@ -22,7 +22,7 @@ namespace VposApi.TestCore
             Assert.Equal(202, response.StatusCode);
         }
 
-        [Fact(DisplayName = "NewPayment InvalidCustomer ReturnsStatus400")]
+        [Fact(DisplayName = "It should not create a new payment request if mobile number is invalid")]
         public void NewPayment_InvalidCustomer_ReturnsStatus400()
         {
             Vpos merchant = CreateDefaultVpos();
@@ -33,7 +33,7 @@ namespace VposApi.TestCore
             Assert.Equal(400, response.StatusCode);
         }
 
-        [Fact(DisplayName = "NewPayment InvalidAmountFormat ReturnsStatus400")]
+        [Fact(DisplayName = "It should not create a new payment request if amount value has wrong format")]
         public void NewPayment_InvalidAmountFormat_ReturnsStatus400()
         {
             Vpos merchant = CreateDefaultVpos();
@@ -44,7 +44,7 @@ namespace VposApi.TestCore
             Assert.Equal(400, response.StatusCode);
         }
 
-        [Fact(DisplayName = "NewRefund ParentTransactionID ReturnsStatus202")]
+        [Fact(DisplayName = "It should create a new refund request")]
         public void NewRefund_ParentTransactionID_ReturnsStatus202()
         {
             Vpos merchant = CreateDefaultVpos();
@@ -54,7 +54,7 @@ namespace VposApi.TestCore
             Assert.Equal(202, response.StatusCode);
         }
 
-        [Fact(DisplayName = "NewRefund NullParentTransactionID ReturnsStatus400")]
+        [Fact(DisplayName = "It should not create a new refund request if parent transaction is not present")]
         public void NewRefund_NullParentTransactionID_ReturnsStatus400()
         {
             Vpos merchant = CreateDefaultVpos();
@@ -64,7 +64,7 @@ namespace VposApi.TestCore
             Assert.Equal(400, response.StatusCode);
         }
 
-        [Fact(DisplayName = "NewRefund InvalidSupervisorCard ReturnsStatus400")]
+        [Fact(DisplayName = "It should not create a new refund request if supervisor card is invalid")]
         public void NewRefund_InvalidSupervisorCard_ReturnsStatus400()
         {
             Vpos merchant = CreateDefaultVpos();
@@ -75,7 +75,7 @@ namespace VposApi.TestCore
             Assert.Equal(400, response.StatusCode);
         }
 
-        [Fact(DisplayName = "GetTransactions ReturnsStatus200")]
+        [Fact(DisplayName = "It should get all the transactions")]
         public void GetTransactions_ReturnsStatus200()
         {
             Vpos merchant = CreateDefaultVpos();
@@ -85,7 +85,7 @@ namespace VposApi.TestCore
             Assert.Equal(200, response.StatusCode);
         }
 
-        [Fact(DisplayName = "GetTransaction ReturnsStatus200")]
+        [Fact(DisplayName = "It should get a single transaction")]
         public void GetTransaction_ReturnsStatus200()
         {
             Vpos merchant = CreateDefaultVpos();
@@ -95,7 +95,7 @@ namespace VposApi.TestCore
             Assert.Equal(200, response.StatusCode);
         }
 
-        [Fact(DisplayName = "GetTransaction NonExistentTransactionID ReturnsStatus404")]
+        [Fact(DisplayName = "It should not get a single transaction if transaction id is invalid")]
         public void GetTransaction_NonExistentTransactionID_ReturnsStatus404()
         {
             Vpos merchant = CreateDefaultVpos();
@@ -106,7 +106,7 @@ namespace VposApi.TestCore
             Assert.Equal(404, response.StatusCode);
         }
 
-        [Fact]
+        [Fact(DisplayName = "It should get a single transaction request")]
         public void GetRequest_NewPayment_Returns200()
         {
             Vpos merchant = CreateDefaultVpos();
