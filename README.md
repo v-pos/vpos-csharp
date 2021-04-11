@@ -1,5 +1,5 @@
 # vPOS C#
-![Test](https://github.com/nextbss/vpos-csharp/workflows/Test/badge.svg?branch=main)
+[![Test](https://github.com/v-pos/vpos-csharp/actions/workflows/test.yml/badge.svg)](https://github.com/v-pos/vpos-csharp/actions/workflows/test.yml)
 [![](https://img.shields.io/badge/nextbss-opensource-blue.svg)](https://www.nextbss.co.ao)
 
 This C# Package helps you easily interact with the vPos API
