@@ -51,13 +51,13 @@ Vpos merchant = new Vpos();
 This endpoint retrieves all transactions.
 
 ```c#
-TransactionsResponse transactionsResponse = merchant.GetTransactions();
+Response<List<Transaction>> transactionsResponse = merchant.GetTransactions();
 ```
 
 ### Get a specific Transaction
 Retrieves a transaction given a valid transaction ID.
 ```c#
-TransactionResponse transactionResponse = merchant.GetTransaction("1jHXEbRTIbbwaoJ6w86");
+Response<Transaction> transactionResponse = merchant.GetTransaction("1jHXEbRTIbbwaoJ6w86");
 ```
 
 | Argument | Description | Type |
@@ -69,7 +69,7 @@ Creates a new payment transaction given a valid mobile number associated with a 
 and a valid amount.
 
 ```c#
-LocationResponse locationResponse = merchant.NewPayment("900111222", "123.45");
+Response locationResponse = merchant.NewPayment("900111222", "123.45");
 ```
 
 | Argument | Description | Type |
@@ -81,7 +81,7 @@ LocationResponse locationResponse = merchant.NewPayment("900111222", "123.45");
 Given an existing `parentTransactionId`, request a refund.
 
 ```c#
-LocationResponse locationResponse = merchant.NewRefund("1jHXEbRTIbbwaoJ6w86");
+Response response = merchant.NewRefund("1jHXEbRTIbbwaoJ6w86");
 ```
 
 | Argument | Description | Type |
@@ -94,14 +94,17 @@ Poll the status of a transaction given a valid `requestId`.
 Note: The `requestId` in this context is essentially the `transactionId` of an existing request. 
 
 ```c#
-BaseResponse response = merchant.GetRequest("1jHXEbRTIbbwaoJ6w86");
-if (response.status == 200)
+Response<Request> response = merchant.GetRequest("1jHXEbRTIbbwaoJ6w86");
+if (response.StatusCode == 200)
 {
-    RequestResponse requestResponse = (RequestResponse)response;
+    Request request = response.data;
+    Console.WriteLine(request.Eta);
+    Console.WriteLine(request.InsertedAt);
 }
-else if(response.status == 303)
+else if(response.StatusCode == 303)
 {
-    LocationResponse locationresponse = (LocationResponse)response;
+    string requestId = Utils.GetRequestId(request.Location);
+    Console.WriteLine(requestId);
 }
 ```
 
