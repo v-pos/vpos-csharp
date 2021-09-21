@@ -62,6 +62,7 @@ namespace VposApi
         /// <summary>
         /// Initializes Vpos with a token.
         /// </summary>
+        /// <param name="token">The API token provided by vPOS</param>
         public Vpos(string token) : this()
         {
             this.merchantVposToken = token;
@@ -78,6 +79,10 @@ namespace VposApi
         /// <summary>
         /// Initializes Vpos with an a token, a POS ID, and a supervisor card.
         /// </summary>
+        /// <param name="environment">The vPOS environment, leave empty for sandbox mode and use "PRD" for production.</param>
+        /// <param name="token">The API token provided by vPOS</param>
+        /// <param name="posID">The Point of Sale ID provided by EMIS</param>
+        /// <param name="supervisorCard">The Supervisor card ID provided by EMIS</param>
         public Vpos(
             string token, 
             string posID, 
@@ -91,6 +96,11 @@ namespace VposApi
         /// Initializes Vpos with an a token, a POS ID, a supervisor card, and a 
         /// payment callback URL.
         /// </summary>
+        /// <param name="environment">The vPOS environment, leave empty for sandbox mode and use "PRD" for production.</param>
+        /// <param name="token">The API token provided by vPOS</param>
+        /// <param name="posID">The Point of Sale ID provided by EMIS</param>
+        /// <param name="supervisorCard">The Supervisor card ID provided by EMIS</param>
+        /// <param name="paymentCallbackUrl">The URL that will handle payment notifications</param>
         public Vpos(
             string token, 
             string posID, 
@@ -105,6 +115,12 @@ namespace VposApi
         /// Initializes Vpos with an a token, a POS ID, a supervisor card, a 
         /// payment callback URL, and a refund callback URL.
         /// </summary>
+        /// <param name="environment">The vPOS environment, leave empty for sandbox mode and use "PRD" for production.</param>
+        /// <param name="token">The API token provided by vPOS</param>
+        /// <param name="posID">The Point of Sale ID provided by EMIS</param>
+        /// <param name="supervisorCard">The Supervisor card ID provided by EMIS</param>
+        /// <param name="paymentCallbackUrl">The URL that will handle payment notifications</param>
+        /// <param name="refundCallbackUrl">The URL that will handle refund notifications</param>
         public Vpos(
             string token, 
             string posID, 
