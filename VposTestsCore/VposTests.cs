@@ -3,9 +3,9 @@ using System.CodeDom;
 using System.Net.Http;
 using Xunit;
 using Xunit.Sdk;
-using vpos.Models;
+using VposModels.Models;
 using VposApi.Models;
-using Vpos.Utils;
+using VposUtilities.Utils;
 
 namespace VposApi.TestCore
 {
@@ -17,7 +17,7 @@ namespace VposApi.TestCore
         {
             Vpos merchant = CreateDefaultVpos();
 
-            var response = merchant.NewPayment("992563019", "123.45");
+            var response = merchant.NewPayment("900000000", "123.45");
 
             Assert.Equal(202, response.StatusCode);
         }
@@ -75,22 +75,14 @@ namespace VposApi.TestCore
             Assert.Equal(400, response.StatusCode);
         }
 
-        [Fact(DisplayName = "It should get all the transactions")]
-        public void GetTransactions_ReturnsStatus200()
-        {
-            Vpos merchant = CreateDefaultVpos();
-
-            var response = merchant.GetTransactions();
-
-            Assert.Equal(200, response.StatusCode);
-        }
-
         [Fact(DisplayName = "It should get a single transaction")]
         public void GetTransaction_ReturnsStatus200()
         {
             Vpos merchant = CreateDefaultVpos();
+            var transaction = merchant.NewPayment("992563019", "123.45");
+            var transactionId = Utils.GetRequestId(transaction.Location);
 
-            Response response = merchant.GetTransaction("1jYQryG3Qo4nzaOKgJxzWDs25Ht");
+            Response response = merchant.GetTransaction(transactionId);
 
             Assert.Equal(200, response.StatusCode);
         }
@@ -110,10 +102,10 @@ namespace VposApi.TestCore
         public void GetRequest_NewPayment_Returns200()
         {
             Vpos merchant = CreateDefaultVpos();
+            var transaction = merchant.NewPayment("992563019", "123.45");
+            var transactionId = Utils.GetRequestId(transaction.Location);
 
-            var paymentResponse = merchant.NewPayment("992563019", "123.45");
-            var requestId = Utils.GetRequestId(paymentResponse.Location);
-            var response = merchant.GetRequest(requestId);
+            var response = merchant.GetRequest(transactionId);
 
             Assert.Equal(200, response.StatusCode);
         }

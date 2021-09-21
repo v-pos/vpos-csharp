@@ -1,6 +1,6 @@
 ﻿
 using System.Collections.Generic;
-using vpos.Models;
+using VposModels.Models;
 
 namespace VposApi.Models
 {

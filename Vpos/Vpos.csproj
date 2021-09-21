@@ -1,12 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp2.1;netcoreapp3.1;net5.0</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.1;net5.0</TargetFrameworks>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <Authors>Ilton Ingui</Authors>
     <Company>Nextbss</Company>
-    <Description>This C# Package helps you easily interact with the vPos API
-Allowing merchants apps/services to request a payment from a client through his/her mobile phone number.</Description>
+    <Description>This C# Package helps you easily interact with the vPOS API
+allowing merchants apps/services to request a payment from a client through his/her mobile phone number.</Description>
     <PackageTags>c#;vPOS;nextbss</PackageTags>
     <NeutralLanguage>en</NeutralLanguage>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
