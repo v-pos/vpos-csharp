@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using VposApi.Models;
 
-namespace Vpos.Utils
+namespace VposUtilities.Utils
 {
     /// <summary>
     /// A class with utilities functions
@@ -52,16 +52,6 @@ namespace Vpos.Utils
             {
                 return null;
             }
-        }
-
-        /// <summary>
-        /// extracts a list of transactions from the http response
-        /// </summary>
-        /// <param name="response">A http response object</param>
-        /// <returns>A list of transactions</returns>
-        public static List<Transaction> GetTransactions(this IFlurlResponse response)
-        {
-            return JsonConvert.DeserializeObject<List<Transaction>>(response.GetStringAsync().Result);
         }
 
         /// <summary>

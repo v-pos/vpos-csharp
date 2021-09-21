@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using Flurl;
 using Flurl.Http;
-using vpos.Models;
+using VposModels.Models;
 using VposApi.Models;
-using Vpos.Utils;
+using VposUtilities.Utils;
 
 namespace VposApi
 {
@@ -47,18 +47,6 @@ namespace VposApi
         private readonly string refundCallbackUrl;
 
         /// <summary>
-        /// The environment for the requests to be made.
-        /// </summary>
-        public enum VposEnvironment
-        {
-            ///
-            SANDBOX,
-
-            ///
-            PRODUCTION
-        }
-
-        /// <summary>
         /// Initializes a Vpos Object
         /// </summary>
         public Vpos()
@@ -68,19 +56,7 @@ namespace VposApi
             this.merchantVposToken = Environment.GetEnvironmentVariable("MERCHANT_VPOS_TOKEN");
             this.paymentCallbackUrl = Environment.GetEnvironmentVariable("PAYMENT_CALLBACK_URL");
             this.refundCallbackUrl = Environment.GetEnvironmentVariable("REFUND_CALLBACK_URL");
-
-            if (Environment.GetEnvironmentVariable("VPOS_ENVIRONMENT") == "PRD")
-                this.host = "https://api.vpos.ao/api/v1";
-            else
-                this.host = "https://sandbox.vpos.ao/api/v1";
-        }
-
-        /// <summary>
-        /// Initializes Vpos with an <see cref="VposEnvironment" />
-        /// </summary>
-        public Vpos(VposEnvironment environment) : this()
-        {
-            this.host = GetBaseUrlFromEnvironment(environment);
+            this.host = "https://api.vpos.ao/api/v1";
         }
 
         /// <summary>
@@ -92,61 +68,50 @@ namespace VposApi
         }
 
         /// <summary>
-        /// Initializes Vpos with an <see cref="VposEnvironment" /> and a token.
+        /// Initializes Vpos with an a token, and a POS ID.
         /// </summary>
-        public Vpos(VposEnvironment environment, string token) : this(token) 
-        {
-            this.host = GetBaseUrlFromEnvironment(environment);
-        }
-
-        /// <summary>
-        /// Initializes Vpos with an <see cref="VposEnvironment" />, a token, and a POS ID.
-        /// </summary>
-        public Vpos(VposEnvironment environment, string token, string posID) : this(environment, token)
+        public Vpos(string token, string posID) : this(token)
         {
             this.gpoPosID = posID;
         }
 
         /// <summary>
-        /// Initializes Vpos with an <see cref="VposEnvironment" />, a token, a POS ID, and a supervisor card.
+        /// Initializes Vpos with an a token, a POS ID, and a supervisor card.
         /// </summary>
         public Vpos(
-            VposEnvironment environment, 
             string token, 
             string posID, 
             string supervisorCard
-        ) : this(environment, token, posID)
+        ) : this(token, posID)
         {
             this.gpoSupervisorCard = supervisorCard;
         }
 
         /// <summary>
-        /// Initializes Vpos with an <see cref="VposEnvironment" />, a token, a POS ID, a supervisor card, and a 
+        /// Initializes Vpos with an a token, a POS ID, a supervisor card, and a 
         /// payment callback URL.
         /// </summary>
         public Vpos(
-            VposEnvironment environment, 
             string token, 
             string posID, 
             string supervisorCard,
             string paymentCallbackUrl
-        ) : this(environment, token, posID, supervisorCard)
+        ) : this(token, posID, supervisorCard)
         {
             this.paymentCallbackUrl = paymentCallbackUrl;
         }
 
         /// <summary>
-        /// Initializes Vpos with an <see cref="VposEnvironment" />, a token, a POS ID, a supervisor card, a 
+        /// Initializes Vpos with an a token, a POS ID, a supervisor card, a 
         /// payment callback URL, and a refund callback URL.
         /// </summary>
         public Vpos(
-            VposEnvironment environment, 
             string token, 
             string posID, 
             string supervisorCard,
             string paymentCallbackUrl,
             string refundCallbackUrl
-        ) : this(environment, token, posID, supervisorCard, paymentCallbackUrl)
+        ) : this(token, posID, supervisorCard, paymentCallbackUrl)
         {
             this.refundCallbackUrl = refundCallbackUrl;
         }
@@ -267,37 +232,6 @@ namespace VposApi
         }
 
         /// <summary>
-        /// Get all transactions
-        /// </summary>
-        /// <returns>
-        /// Returns <c>TransactionsResponse</c> object.
-        /// </returns>
-        /// <example>
-        /// <code>
-        /// var merchant = new Vpos();
-        /// var transactionsResponse = merchant.GetTransactions();
-        /// </code>
-        /// </example>
-        public Response<List<Transaction>> GetTransactions()
-        {
-            IFlurlResponse result = HttpRequest("transactions")
-                .GetAsync().Result;
-
-            int status = result.StatusCode;
-            string message = StatusMessage.GetMessage(status);
-            if (status == 200)
-            {
-                var transactions = Utils.GetTransactions(result);
-                var TransactionsResponse = new Response<List<Transaction>>(status, message, transactions);
-                return TransactionsResponse;
-            }
-            {
-                var errorResponse = new Response<List<Transaction>>(status, message, details: Utils.GetDetails(result));
-                return errorResponse;
-            }
-        }
-
-        /// <summary>
         /// retrieves a request
         /// Given its id
         /// </summary>
@@ -375,16 +309,9 @@ namespace VposApi
                 .AppendPathSegment(url);
         }
 
-        private string GetBaseUrlFromEnvironment(VposEnvironment environment)
+        private string GetBaseUrlFromEnvironment()
         {
-            if (environment == VposEnvironment.PRODUCTION)
-            {
-                return "https://api.vpos.ao/api/v1";
-            }
-            else
-            {
-                return "https://sandbox.vpos.ao/api/v1";
-            } 
+            return "https://api.vpos.ao/api/v1";
         }
     }
 }

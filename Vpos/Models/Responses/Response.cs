@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace vpos.Models
+namespace VposModels.Models
 {
     /// <summary>
     /// The <c>Response</c> class contains the base response structure.

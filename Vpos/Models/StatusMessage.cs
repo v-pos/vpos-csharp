@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace vpos.Models
+namespace VposModels.Models
 {
     /// <summary>
     /// The class <c>StatusMessage</c> represents an http status.
