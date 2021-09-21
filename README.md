@@ -31,7 +31,6 @@ interacting with the API using this library:
 | `MERCHANT_VPOS_TOKEN` | The API token provided by vPOS | true |
 | `PAYMENT_CALLBACK_URL` | The URL that will handle payment notifications | false |
 | `REFUND_CALLBACK_URL` | The URL that will handle refund notifications | false |
-| `VPOS_ENVIRONMENT` | The vPOS environment, leave empty for `sandbox` mode and use `"PRD"` for `production`.  | false |
 
 Don't have this information? [Talk to us](suporte@vpos.ao)
 
@@ -45,13 +44,6 @@ Create an instance of `Vpos` (make sure to define the environment variables abov
 The constructor will be responsible for acquiring the tokens defined above to interact with the API. 
 ```c#
 Vpos merchant = new Vpos();
-```
-
-### Get all Transactions
-This endpoint retrieves all transactions.
-
-```c#
-Response<List<Transaction>> transactionsResponse = merchant.GetTransactions();
 ```
 
 ### Get a specific Transaction
