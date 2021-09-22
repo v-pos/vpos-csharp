@@ -5,6 +5,7 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <Authors>Ilton Ingui</Authors>
     <Company>Nextbss</Company>
+    <Version>1.0.1</Version>
     <Description>This C# Package helps you easily interact with the vPOS API
 allowing merchants apps/services to request a payment from a client through his/her mobile phone number.</Description>
     <PackageTags>c#;vPOS;nextbss</PackageTags>

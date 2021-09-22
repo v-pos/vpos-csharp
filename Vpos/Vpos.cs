@@ -79,7 +79,6 @@ namespace VposApi
         /// <summary>
         /// Initializes Vpos with an a token, a POS ID, and a supervisor card.
         /// </summary>
-        /// <param name="environment">The vPOS environment, leave empty for sandbox mode and use "PRD" for production.</param>
         /// <param name="token">The API token provided by vPOS</param>
         /// <param name="posID">The Point of Sale ID provided by EMIS</param>
         /// <param name="supervisorCard">The Supervisor card ID provided by EMIS</param>
@@ -96,7 +95,6 @@ namespace VposApi
         /// Initializes Vpos with an a token, a POS ID, a supervisor card, and a 
         /// payment callback URL.
         /// </summary>
-        /// <param name="environment">The vPOS environment, leave empty for sandbox mode and use "PRD" for production.</param>
         /// <param name="token">The API token provided by vPOS</param>
         /// <param name="posID">The Point of Sale ID provided by EMIS</param>
         /// <param name="supervisorCard">The Supervisor card ID provided by EMIS</param>
@@ -115,7 +113,6 @@ namespace VposApi
         /// Initializes Vpos with an a token, a POS ID, a supervisor card, a 
         /// payment callback URL, and a refund callback URL.
         /// </summary>
-        /// <param name="environment">The vPOS environment, leave empty for sandbox mode and use "PRD" for production.</param>
         /// <param name="token">The API token provided by vPOS</param>
         /// <param name="posID">The Point of Sale ID provided by EMIS</param>
         /// <param name="supervisorCard">The Supervisor card ID provided by EMIS</param>
